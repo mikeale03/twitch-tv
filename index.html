@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Twitch Tv Streamers</title>
+  </head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="custom.css">
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.min.js"></script>
+  <body>
+
+    <div class="container" ng-app="MyApp" ng-controller="myController as ctrl">
+      <div class="row">
+        <div class="col-md-10 head-logo shadow">
+          <h1><img class="img-header" src="https://abiscuitblog.files.wordpress.com/2016/03/twitch_logo.png"> Streamers</h1>
+          &nbsp&nbsp<a href="https://www.twitch.tv" target="_blank">www.twitch.tv</a>
+        </div>
+        <div class="col-md-2" style="text-align:center; margin-top:15px">
+           <button class="btn btn-primary btn-header" ng-click="ctrl.displayAll()">All</button>
+           <button class="btn btn-success btn-header" ng-click="ctrl.displayOnline()">Online</button>
+           <button class="btn btn-danger btn-header" ng-click="ctrl.displayOffline()">Offline</button>
+        </div>
+      </div>
+      <br>
+      <div>
+        <form class="form-inline" style="text-align:center">
+          <div class="form-group">
+            <label for="input" ><strong>Add your twitch tv channel &nbsp</strong> </label>
+            <input type="text" id="input" class="form-control" placeholder=" enter channel" ng-keypress="ctrl.msg=''" ng-model="ctrl.inputChannel"/>
+            <button type="submit" class="btn btn-primary" ng-click="ctrl.addChannel()">Add</button>
+            <div class="msg-wrap">
+              <br>
+              <img class="loading" ng-src="http://www.ppimusic.ie/images/loading_anim.gif" ng-show="ctrl.isLoading">
+              <p class="msg">{{ctrl.msg}}</p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class=" accnt" ng-repeat="accnt in ctrl.accnts">
+
+        <a href="https://www.twitch.tv/{{accnt.name}}" target="_blank">
+        <div class="row wrap shadow {{accnt.data.stream ? 'online':'offline'}}">
+          <div class="col-xs-6 col-md-3" style="text-align:center">
+            <img class="img-icon" src="{{accnt.logo}}"><br>
+            <span>{{accnt.name}}</span>
+          </div>
+          <div class="col-xs-6 col-md-5">
+            <div>
+              <span>{{ctrl.displayStat(accnt)}}</span>
+            </div>
+          </div>
+          <div class="col-md-3 preview" >
+            Preview: <br>
+            <div class="img-preview-wrap">
+              <img class="img-icon" src="{{accnt.data.stream.preview.medium || 'http://makkahlive.net/images/channel-is-offline.jpg'}}"/>
+              <img class="img-preview" src="{{accnt.data.stream.preview.medium || ''}}"/>
+            </div>
+          </div>
+        </div>
+        </a>
+        <button class="delete" ng-click="ctrl.deleteChannel(accnt)">x</button>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
